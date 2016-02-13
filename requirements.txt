@@ -1,0 +1,8 @@
+# ggplot uses scipy which uses numpy, using latest version from: 
+# heroku buildpacks:set https://github.com/thenovices/heroku-buildpack-scipy.git
+# uses python-2.7.9
+numpy==1.9.2
+scipy==0.15.1
+ggplot==0.6.8
+pandas==0.17.1
+DataSpyre==0.2.0

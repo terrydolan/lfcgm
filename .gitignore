@@ -1,0 +1,22 @@
+# ignore lfcgm2 (lfcgm prototype) files
+lfcgm2*.*
+
+# non-project files to ignore
+*.bat
+*.jpg
+*.pptx
+*.png
+*.pyc
+*.sh
+*.tmp
+*.txt
+*.xlsx
+tmp*.*
+Thumbs.db
+
+# data and tmp folder files
+data/
+tmp*/
+
+# IPython notebook checkpoint files
+.ipynb_checkpoints/
