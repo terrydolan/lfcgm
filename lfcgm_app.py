@@ -1,72 +1,59 @@
-# LFC Goal Machine App
-# author: Terry Dolan, @lfcsorted
-#
+"""LFC Goal Machine App.
+
+An interactive python Spyre web app that uses ggplot to
+plots an LFC player's age against the goals that the player
+scored in a top level season.
+
+Example:
+    $python lfcgm_app.py
+    
+"""
 from spyre import server
 import os
 import pandas as pd
 from ggplot import *
 
-# create list of players for dropdown
+__author__ = "Terry Dolan"
+__copyright__ = "Terry Dolan"
+__license__ = "MIT"
+__version__ = "1.0.0"
+__email__ = "terry8dolan@gmail.com"
+__status__ = "Prototype"
+
+# create list of players for Spyre dropdown
 LT = "&#060" # HTML escape character for '<'
 GT = "&#062" # HTML escape character for '>'
 LFCGM_DROPDOWN = os.path.relpath('data/lfcgm_app_dropdown.csv')
 dd_options_list = [{"label": LT+"Select Player"+GT, "value": "Empty"}]
 dd_options_list.extend(pd.read_csv(LFCGM_DROPDOWN).to_dict(orient='records'))
 
+# set number of dropdowns
+DD_NUMBER = 10
+
+# create list of keys for Spyre dropdown
+# key is set to 'selected_pn' where n is dropdown number
+DD_KEY_LIST = ['selected_p{}'.format(i) for i in range(1, DD_NUMBER+1)]
+
+# create label for first dropdown
+DD_FIRST_LABEL = 'Select LFC players from dropdown lists'
+
+
 class LFCGoalMachine(server.App):
     """Spyre LFC Goal Machine App."""
     title = "The LFC Goal Machine"
 
+    # create list of inputs for Spyre dropdown
+    # the first dropown has a label, the others do not
     inputs = [{"type": 'dropdown',
-               "label": 'Select LFC players from dropdown lists', 
+               "label": DD_FIRST_LABEL,
                "options" : dd_options_list,
-               "key": 'selected_p1',
-               "action_id": "update_data"},
-              
+               "key": kstr,
+               "action_id": "update_data"} if kstr == 'selected_p1' 
+                                           else 
               {"type": 'dropdown',
                "options" : dd_options_list,
-               "key": 'selected_p2',
-               "action_id": "update_data"},
-              
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p3',
-               "action_id": "update_data"},
-              
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p4',
-               "action_id": "update_data"},
-              
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p5',
-               "action_id": "update_data"},
-
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p6',
-               "action_id": "update_data"},
-
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p7',
-               "action_id": "update_data"},
-              
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p8',
-               "action_id": "update_data"},
-
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p9',
-               "action_id": "update_data"},
-              
-              {"type": 'dropdown',
-               "options" : dd_options_list,
-               "key": 'selected_p10',
-               "action_id": "update_data"}]
+               "key": kstr,
+               "action_id": "update_data"} for kstr in DD_KEY_LIST]
 
     controls = [{"type": "hidden",
                 "id": "update_data"}]
@@ -101,13 +88,12 @@ class LFCGoalMachine(server.App):
 
            Given the low number of points, ggplot's geom_smooth uses
            the loess method with default span."""
-
-        TITLE = 'Age vs League Goals'
+        TITLE = 'LFCGM Age vs League Goals'
         XLABEL = 'Age at Midpoint of Season'
         YLABEL = 'League Goals per Season'
-        EXEMPLAR_PLAYERS = ['Robbie Fowler', 'Ian Rush', 'Roger Hunt', \
-                            'John Aldridge', 'Luis Suarez', 'Fernando Torres']
-        EXEMPLAR_TITLE = 'Example Plot: ' + TITLE
+        EXEMPLAR_PLAYERS = ['Ian Rush', 'Kenny Dalglish', 'Roger Hunt', 'David Johnson',
+                            'Harry Chambers', 'John Toshack', 'John Barnes', 'Kevin Keegan']
+        EXEMPLAR_TITLE = 'LFCGM Example Plot, The Champions: Age vs League Goals'
         
         # if all the selected players are 'Empty' then set the default exemplar options
         if all(p == 'Empty' for p in players):
@@ -127,12 +113,13 @@ class LFCGoalMachine(server.App):
 
     def getPlot(self, params):
         """Return the plot object."""
-        print '\n', '-'*60, '\n', params, '\n', '-'*60
+        # set players to the values from the dropdowns
+        players = [params[keystr] for keystr in DD_KEY_LIST]
 
-        players = [params['selected_p1'], params['selected_p2'], params['selected_p3'], \
-                   params['selected_p4'], params['selected_p5'], params['selected_p6'], \
-                   params['selected_p7'], params['selected_p8'], params['selected_p9'], \
-                   params['selected_p10']]
+        # print the selected players
+        print '\n', '-'*60
+        print 'selected players:', ', '.join(players)
+        print '-'*60, '\n'
 
         # plot the selected players
         ggplt = self.ggplot_age_vs_lgoals(self.df, players)
@@ -142,50 +129,51 @@ class LFCGoalMachine(server.App):
         return ggplt.draw()
 
     def getHTML(self,params):
-        """Return html that describes the app."""
-        
+        """Return html that describes the app."""        
         html = """
         <!DOCTYPE html>
         <html>
         <body>
 
-        <p>LFC Goal Machine app by @lfcsorted, your feedback is welcome.</p>
+        <p>
+        LFC Goal Machine app by @lfcsorted, your feedback is welcome.</p>
         <a href="https://twitter.com/lfcsorted" class="twitter-follow-button" data-show-count="false">Follow @lfcsorted</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)
         ?'http':'https';if(!d.getElementById(id))
         {js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}
         (document, 'script', 'twitter-wjs');</script>
-        <br>
-        
-        <p>The app takes the selected LFC player and plots the
-        player's Age against League Goals per season.
-        You can generate your own plots simply by selecting 1 or more players
-        from the dropdown list on the Plot tab.
-        You can compare players across any era. Enjoy :-).</p>
+        <br><br>
+        </p>
         
         <p>
-        The player dropdown list contains all of the LFC players who
-        have scored 1 or more top level league goals in 2 or more seasons
-        from 1894-1895 to 2014-15. 
-        The top level is the old 1st Division or the Premier League. That's 233
-        LFC players, from Alan A'Court to Yossi Benayoun.
-        The player's age used in the plots is their age at the season mid-point,
-        taken to be 1st January.
+        The app plots a player's age against the league goals that the player scored in a top level season.
+        You can generate your own plots simply by selecting one or more players from the dropdown list on the Plot tab.
+        You can compare players across different seasons and eras.  Enjoy :-).
+        </p>
+        
+        <p>
+        The player dropdown list contains all of the LFC players who have scored a top level league goal in more than one season, from 1894-95 to 2014-15.
+        The top level is the old 1st Division or the Premier League.
+        That's 233 LFC players, from Alan A'Court to Yossi Benayoun.
+        The player's age used in the plots is their age at the season mid-point, taken to be 1st January.
         </p>
 
-        <p>Special thanks to @lfchistory for the base LFC data.</p>
-
-        <p>The app uses python, spyre, pandas, ggplot and heroku.
-        For more information on the data analysis, the app source code, and
-        how it is deployed see Terry Dolan's
+        <p>
+        <br>
+        The app is open source software, built using python, spyre, pandas and ggplot.
+        It is deployed on Heroku's cloud application platform.
+        For more information on the data analysis, the app source code and how it is deployed see the
         <a href="https://github.com/terrydolan/lfcgm">lfcgm github repository</a>.
-        The summary line for each player is a smoothed conditional mean
-        using ggplot's geom_smooth.
-        Given the small number of data points for each player, this uses
-        a loess method with a default span.</p>
+        </p>
 
-        <p>Terry Dolan<br>
-        February 2016</p>
+        <p>
+        Special thanks to @lfchistory for the base LFC data.
+        </p>
+        
+        <p>
+        Terry Dolan<br>
+        February 2016
+        </p>
         
         </body>
         </html>
