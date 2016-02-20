@@ -12,6 +12,8 @@ lfcgm2*.*
 *.txt
 *.xlsx
 tmp*.*
+*~*
+*.old
 Thumbs.db
 
 # data and tmp folder files
