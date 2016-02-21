@@ -1,9 +1,41 @@
 # lfcgm
 
-The Liverpool Football Club Goal Machine (lfcgm) is an interactive python Spyre app that takes the selected LFC player and plots the player's Age against League Goals per season. 
+The Liverpool Football Club Goal Machine (lfcgm) is an interactive python web app that takes a selected LFC player and plots the player's age against the league goals that the player scored in a top level season. The app knows about every LFC player who scored a top level league goal in more than one season, from 1894-95 to 2014-15. 
 
-The app runs at <a href="http://lfcgm.herokuapp.com/">lfcgm.herokuapp.com</a>. 
+## Try the app
 
-You can find out more about Spyre at <a href="https://github.com/adamhajari/spyre">github.com/adamhajari/spyre</a>.
+The lfcgm web app is deployed at [lfcgm.herokuapp.com](http://lfcgm.herokuapp.com). Have a play! You can use the app to compare players across different seasons and eras. Simply select one or more players and take a look at their graph. 
 
-For more information about the supporting data analysis see the lfcgm IPython notebook (work in progress).
+## Data analysis and app construction
+
+The [lfcgm notebook](http://nbviewer.ipython.org/github/terrydolan/lfcgm/blob/master/lfcgm.ipynb) describes the data analysis and how the app was built and deployed.
+
+## Building blocks
+
+The analysis and the app use python, ipython notebook, pandas, ggplot and spyre. The app is deployed using heroku.
+
+[Spyre](https://github.com/adamhajari/spyre) is a web app framework for providing a simple user interface for Python data projects.
+
+[Ggplot](http://ggplot.yhathq.com) is a python plotting library based on R's ggplot2.
+
+[Pandas](http://pandas.pydata.org) is a python data analysis library.
+
+[Heroku](https://www.heroku.com/platform) is a cloud platform for deploying and running web apps.
+
+The app uses the [heroku scipy buildpack](https://github.com/thenovices/heroku-buildpack-scipy).
+
+## Data source
+
+Special thanks to [lfchistory.net](https://http://www.lfchistory.net) who provided the base LFC data.
+
+## Licence
+
+MIT. 
+
+## Acknowledgements
+
+Thanks to the providers of the tools and data.
+
+
+Terry Dolan, @lfcsorted
+blog: www.lfcsorted.com

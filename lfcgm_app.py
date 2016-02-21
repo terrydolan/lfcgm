@@ -12,6 +12,9 @@ from spyre import server
 import os
 import pandas as pd
 from ggplot import *
+import logging
+import logging.config
+import lfcgm_log_config # dict with logging config
 
 __author__ = "Terry Dolan"
 __copyright__ = "Terry Dolan"
@@ -19,6 +22,10 @@ __license__ = "MIT"
 __version__ = "1.0.0"
 __email__ = "terry8dolan@gmail.com"
 __status__ = "Prototype"
+
+# set up logging
+logging.config.dictConfig(lfcgm_log_config.dictLogConfig)
+logger = logging.getLogger('lfcgm')
 
 # create list of players for Spyre dropdown
 LT = "&#060" # HTML escape character for '<'
@@ -28,7 +35,7 @@ dd_options_list = [{"label": LT+"Select Player"+GT, "value": "Empty"}]
 dd_options_list.extend(pd.read_csv(LFCGM_DROPDOWN).to_dict(orient='records'))
 
 # set number of dropdowns
-DD_NUMBER = 10
+DD_NUMBER = 8
 
 # create list of keys for Spyre dropdown
 # key is set to 'selected_pn' where n is dropdown number
@@ -81,6 +88,7 @@ class LFCGoalMachine(server.App):
 
            Data source: www.lfchistory.com."""
         LFCGM_DATA = os.path.relpath('data/lfc_scorers_tl_pos_age.csv')
+        logger.info("LFCGoalMachine.init, creating dataframe from: {}".format(LFCGM_DATA))
         self.df = pd.DataFrame.from_csv(LFCGM_DATA, sep=',')
 
     def ggplot_age_vs_lgoals(self, df, players):
@@ -95,12 +103,14 @@ class LFCGoalMachine(server.App):
                             'Harry Chambers', 'John Toshack', 'John Barnes', 'Kevin Keegan']
         EXEMPLAR_TITLE = 'LFCGM Example Plot, The Champions: Age vs League Goals'
         
-        # if all the selected players are 'Empty' then set the default exemplar options
-        if all(p == 'Empty' for p in players):
+        # if players list is empty then set the default exemplar options
+        if not players:
+            logger.info('LFCGoalMachine.ggplot_age_vs_lgoals, players list empty so setting default')
             players = EXEMPLAR_PLAYERS
             TITLE = EXEMPLAR_TITLE
             
         # fiter dataframe for given players and plot
+        logger.info('LFCGoalMachine.ggplot_age_vs_lgoals, creating ggplot for: {}'.format(players))
         this_df = df[df.player.isin(players)]
         this_plot = ggplot(this_df, aes(x='age', y='league', color='player', shape='player')) + \
                         geom_point() + \
@@ -113,23 +123,20 @@ class LFCGoalMachine(server.App):
 
     def getPlot(self, params):
         """Return the plot object."""
-        # set players to the values from the dropdowns
-        players = [params[keystr] for keystr in DD_KEY_LIST]
-
-        # print the selected players
-        print '\n', '-'*60
-        print 'selected players:', ', '.join(players)
-        print '-'*60, '\n'
+        # set players to the values from the dropdowns, filtering out 'Empty' selections
+        players = [str(params[keystr]) for keystr in DD_KEY_LIST if params[keystr] != 'Empty']
+        logger.info('LFCGoalMachine.getPLot, selected players: {}'.format(players))
 
         # plot the selected players
         ggplt = self.ggplot_age_vs_lgoals(self.df, players)
 
         # Spyre (v0.2) cannot handle a ggplot object so
         # return a matplotlib (matplotlib.figure.Figure) object
+        logger.info('LFCGoalMachine.getPLot, return plot for selected players')
         return ggplt.draw()
 
     def getHTML(self,params):
-        """Return html that describes the app."""        
+        """Return html that describes the app."""
         html = """
         <!DOCTYPE html>
         <html>
@@ -171,7 +178,8 @@ class LFCGoalMachine(server.App):
         </p>
         
         <p>
-        Terry Dolan<br>
+        Terry Dolan, @lfcsorted<br>
+        Blog:  <a href="http://www.lfcsorted.com">www.lfcsorted.com</a><br>
         February 2016
         </p>
         
