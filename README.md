@@ -4,7 +4,7 @@ The Liverpool Football Club Goal Machine (lfcgm) is an interactive python web ap
 
 ## Try the app
 
-The lfcgm web app is deployed at [lfcgm.herokuapp.com](http://lfcgm.herokuapp.com). Have a play! You can use the app to compare players across different seasons and eras. Simply select one or more players and take a look at their graph. 
+The lfcgm web app is deployed at [lfcgm.lfcsorted.com](http://lfcgm.lfcsorted.com). Have a play! You can use the app to compare players across different seasons and eras. Simply select one or more players and take a look at their graph. 
 
 ## Data analysis and app construction
 
