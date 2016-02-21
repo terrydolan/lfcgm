@@ -4,6 +4,7 @@ lfcgm2*.*
 # non-project files to ignore
 *.bat
 *.jpg
+*.log
 *.pptx
 *.png
 *.pyc
@@ -12,8 +13,9 @@ lfcgm2*.*
 *.txt
 *.xlsx
 tmp*.*
+*.old*
 *~*
-*.old
+*.sav*
 Thumbs.db
 
 # data and tmp folder files
