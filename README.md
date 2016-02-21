@@ -26,7 +26,7 @@ The app uses the [heroku scipy buildpack](https://github.com/thenovices/heroku-b
 
 ## Data source
 
-Special thanks to [lfchistory.net](https://http://www.lfchistory.net) who provided the base LFC data.
+Special thanks to [lfchistory.net](http://www.lfchistory.net) who provided the base LFC data.
 
 ## Licence
 
@@ -37,5 +37,5 @@ MIT.
 Thanks to the providers of the tools and data.
 
 
-Terry Dolan, @lfcsorted
-blog: www.lfcsorted.com
+Terry Dolan, @lfcsorted  
+blog: [www.lfcsorted.com](http://www.lfcsorted.com)
