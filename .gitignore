@@ -5,8 +5,9 @@ lfcgm2*.*
 *.bat
 *.jpg
 *.log
-*.pptx
+*.pdf
 *.png
+*.pptx
 *.pyc
 *.sh
 *.tmp
