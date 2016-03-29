@@ -25,3 +25,8 @@ tmp*/
 
 # IPython notebook checkpoint files
 .ipynb_checkpoints/
+
+# rstudio files
+rsconnect/
+*.Rhistory
+*.Rproj*

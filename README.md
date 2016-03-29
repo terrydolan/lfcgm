@@ -28,6 +28,10 @@ The analysis and the app use python, ipython notebook, pandas, ggplot and spyre.
 
 The app uses the [heroku scipy buildpack](https://github.com/thenovices/heroku-buildpack-scipy).
 
+## R version
+
+The Rversion folder contains the source code for the equivalent R version of the lfcgm. You can try the app at [lfcgmR](https://terrydolan.shinyapps.io/lfcgmR). This version is built using R, RStudio, shiny, ggplot and dplyr. It is deployed on R Studio's platform. 
+
 ## Data source
 
 Special thanks to [lfchistory.net](https://http://www.lfchistory.net) who provided the base LFC data.
