@@ -30,7 +30,9 @@ The app uses the [heroku scipy buildpack](https://github.com/thenovices/heroku-b
 
 ## R version
 
-The Rversion folder contains the source code for the equivalent R version of the lfcgm. You can try the app at [lfcgmR](https://terrydolan.shinyapps.io/lfcgmR). This version is built using R, RStudio, shiny, ggplot and dplyr. It is deployed on R Studio's platform. 
+The Rversion folder contains the source code for the R version of the lfcgm, with an enhanced UI. 
+You can try the app at [lfcgmR](https://terrydolan.shinyapps.io/lfcgmR). 
+This version is built using R, RStudio, shiny, ggplot and dplyr. It is deployed on R Studio's platform. 
 
 ## Data source
 

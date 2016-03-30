@@ -25,6 +25,7 @@ ggplot_age_vs_lgoals <- function(df, players) {
     title <- TITLE
   }
   
+  
   # create dataframes to plot...
   # filter those players with only 2 points and those with more than 2
   this_df <- df[df$player %in% players, ]
@@ -47,12 +48,15 @@ shinyServer(function(input, output) {
   
   # output a plot of the selected players in dataframe dflfcgm
   output$plot1 <- renderPlot({
-    players <- input$player_input
+    # set players to character vector of values selected in the player input dropdowns
+    # note use of the syntax input[['dd1']] instead of input$dd1, because we have
+    # to construct the id as a character string, then use it to access the value;
+    players <- unlist(lapply(1:DD_NUMBER, function (i) input[[paste0('dd', i)]]))
     print(players)
     
-    # if players is empty (NULL) then set the players to the empty vecor
-    if (is.null(players)) {
-      print('all player selections empty, so set players to empty vector')
+    # if players is full of empty values then set the players to the empty vecor
+    if (all(players == EMPTY)) {
+      print ('all player selections empty, so set players to empty vector')
       players <- c()
     }
     

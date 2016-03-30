@@ -1,19 +1,21 @@
 library(shiny)
 
-# create the character vector of players for the player input dropdowns
+# create the character vector of players for the player input choices
 dflfcgm_dd <- read.csv('data/lfcgm_app_dropdown.csv', header=TRUE)
-dd_players <- levels(dflfcgm_dd$value)
-dd_players <- c(EMPTY, dd_players)
+PLAYER_CHOICES <- levels(dflfcgm_dd$value)
+PLAYER_MAX = 8
+PLAYER_PROMPT <- paste('Select up to', PLAYER_MAX, 'LFC players to compare:')
+PLAYER_PLACEHOLDER = 'Select Player'
 
 shinyUI(pageWithSidebar(
   headerPanel('The LFC Goal Machine'),
   sidebarPanel(
-    helpText('Select LFC players from dropdown list:'),
-    # create the player input dropdowns
-    lapply(1:DD_NUMBER, function(i) {
-      selectInput(paste('dd', i, sep=''), NULL, dd_players, EMPTY)
-    }),
-    em('lfcgm: R version 1.0'), width=2
+    selectizeInput(
+      inputId='player_input', label=PLAYER_PROMPT, 
+      choices=PLAYER_CHOICES, multiple=TRUE, 
+      options=list(maxItems=PLAYER_MAX, placeholder=PLAYER_PLACEHOLDER)
+    ),
+    em('lfcgm: R version 2.0'), width=2
   ),
   
   mainPanel(

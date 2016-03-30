@@ -7,6 +7,12 @@
 # __author__ = "Terry Dolan"
 # __copyright__ = "Terry Dolan"
 # __license__ = "MIT"
-# __version__ = "2.0.0"
+# __version__ = "1.0.0"
 # __email__ = "terrydolan1892@gmail.com"
 # __status__ = "Prototype"
+
+# define the default 'empty' string for the player input dropdowns
+EMPTY <- '<Select Player>'
+
+# define the number of player input dropdowns
+DD_NUMBER = 8

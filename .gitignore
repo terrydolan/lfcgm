@@ -30,3 +30,4 @@ tmp*/
 rsconnect/
 *.Rhistory
 *.Rproj*
+.Rproj.user
