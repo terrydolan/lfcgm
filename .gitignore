@@ -6,10 +6,7 @@ lfcgm2*.*
 *.jpg
 *.log
 *.pdf
-<<<<<<< HEAD
-=======
 *.pptx
->>>>>>> hdata
 *.png
 *.pptx
 *.pyc
