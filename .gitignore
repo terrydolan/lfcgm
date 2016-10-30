@@ -5,6 +5,7 @@ lfcgm2*.*
 *.bat
 *.jpg
 *.log
+*.pdf
 *.pptx
 *.png
 *.pyc
@@ -18,7 +19,8 @@ tmp*.*
 *.sav*
 Thumbs.db
 
-# data and tmp folder files
+# data, archive and tmp folder files
+archive/
 data/
 tmp*/
 
