@@ -1,11 +1,21 @@
 """LFC Goal Machine App.
 
 An interactive python Spyre web app that uses ggplot to
-plots an LFC player's age against the goals that the player
+plot an LFC player's age against the goals that the player
 scored in a top level season.
 
 Example:
     $python lfcgm_app.py
+
+History
+v1.0.0 - First published release for seasons 1894-95 to 2014-15, February 2016
+v1.1.0 - Updated app for season 2015-16, October 2016
+           - Updated data files for season 2015-16:
+                data/lfcgm_app_dropdown.csv
+                data/data/lfc_scorers_tl_pos_age.csv.csv
+           - Updated version to 1.1
+           - Updated getHTML() function to make it data-driven using ABOUT* variables
+           - Added __updated__ and set it to 'October 2016'
     
 """
 from spyre import server
@@ -19,9 +29,10 @@ import lfcgm_log_config # dict with logging config
 __author__ = "Terry Dolan"
 __copyright__ = "Terry Dolan"
 __license__ = "MIT"
-__version__ = "1.0.0"
 __email__ = "terry8dolan@gmail.com"
-__status__ = "Prototype"
+__status__ = "Production"
+__version__ = "1.1.0"
+__updated__ = 'October 2016'
 
 # set up logging
 logging.config.dictConfig(lfcgm_log_config.dictLogConfig)
@@ -43,7 +54,6 @@ DD_KEY_LIST = ['selected_p{}'.format(i) for i in range(1, DD_NUMBER+1)]
 
 # create label for first dropdown
 DD_FIRST_LABEL = 'Select LFC players from dropdown lists'
-
 
 class LFCGoalMachine(server.App):
     """Spyre LFC Goal Machine App."""
@@ -91,6 +101,13 @@ class LFCGoalMachine(server.App):
         logger.info("LFCGoalMachine.init, creating dataframe from: {}".format(LFCGM_DATA))
         self.df = pd.DataFrame.from_csv(LFCGM_DATA, sep=',')
 
+        # define variables for HTML About
+        self.ABOUT_HTML_DATE_UPDATED = __updated__
+        self.ABOUT_HTML_LATEST_SEASON = self.df.season.max()
+        self.ABOUT_HTML_FIRST_PLAYER = dd_options_list[1]['value']
+        self.ABOUT_HTML_LAST_PLAYER = dd_options_list[-1]['value']
+        self.ABOUT_HTML_PLAYER_COUNT = str(len(dd_options_list) - 1)
+
     def ggplot_age_vs_lgoals(self, df, players):
         """Return ggplot of Age vs League Goals for given list of players in dataframe.
 
@@ -135,7 +152,7 @@ class LFCGoalMachine(server.App):
         logger.info('LFCGoalMachine.getPLot, return plot for selected players')
         return ggplt.draw()
 
-    def getHTML(self,params):
+    def getHTML(self, params):
         """Return html that describes the app."""
         html = """
         <!DOCTYPE html>
@@ -159,9 +176,9 @@ class LFCGoalMachine(server.App):
         </p>
         
         <p>
-        The player dropdown list contains all of the LFC players who have scored a top level league goal in more than one season, from 1894-95 to 2014-15.
+        The player dropdown list contains all of the LFC players who have scored a top level league goal in more than one season, from 1894-95 to ABOUT_HTML_LATEST_SEASON.
         The top level is the old 1st Division or the Premier League.
-        That's 233 LFC players, from Alan A'Court to Yossi Benayoun.
+        That's ABOUT_HTML_PLAYER_COUNT LFC players, from ABOUT_HTML_FIRST_PLAYER to ABOUT_HTML_LAST_PLAYER.
         The player's age used in the plots is their age at the season mid-point, taken to be 1st January.
         </p>
 
@@ -180,13 +197,28 @@ class LFCGoalMachine(server.App):
         <p>
         Terry Dolan, @lfcsorted<br>
         Blog:  <a href="http://www.lfcsorted.com">www.lfcsorted.com</a><br>
-        February 2016
+        ABOUT_HTML_DATE_UPDATED
         </p>
         
         </body>
         </html>
         """
-        return html
+
+        logger.info('LFCGoalMachine.getHTML, return the About HTML')
+        logger.info('LFCGoalMachine.getHTML, variables - latest season: {}, first player: {}, last player: {}, player count: {}, date updated: {}'\
+                                                .format(self.ABOUT_HTML_LATEST_SEASON,\
+                                                        self.ABOUT_HTML_FIRST_PLAYER,\
+                                                        self.ABOUT_HTML_LAST_PLAYER,\
+                                                        self.ABOUT_HTML_PLAYER_COUNT,\
+                                                        self.ABOUT_HTML_DATE_UPDATED))
+        
+        # replace 'ABOUT*' variables in the  html string and return
+        return html.replace('ABOUT_HTML_LATEST_SEASON', self.ABOUT_HTML_LATEST_SEASON)\
+                       .replace('ABOUT_HTML_FIRST_PLAYER', self.ABOUT_HTML_FIRST_PLAYER)\
+                       .replace('ABOUT_HTML_LAST_PLAYER', self.ABOUT_HTML_LAST_PLAYER)\
+                       .replace('ABOUT_HTML_PLAYER_COUNT', self.ABOUT_HTML_PLAYER_COUNT)\
+                       .replace('ABOUT_HTML_DATE_UPDATED', self.ABOUT_HTML_DATE_UPDATED)
+
 
 if __name__ == '__main__':
     app = LFCGoalMachine()

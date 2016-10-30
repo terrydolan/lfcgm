@@ -6,6 +6,10 @@ lfcgm2*.*
 *.jpg
 *.log
 *.pdf
+<<<<<<< HEAD
+=======
+*.pptx
+>>>>>>> hdata
 *.png
 *.pptx
 *.pyc
@@ -19,7 +23,8 @@ tmp*.*
 *.sav*
 Thumbs.db
 
-# data and tmp folder files
+# data, archive and tmp folder files
+archive/
 data/
 tmp*/
 
