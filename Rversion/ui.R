@@ -15,7 +15,7 @@ shinyUI(pageWithSidebar(
       choices=PLAYER_CHOICES, multiple=TRUE, 
       options=list(maxItems=PLAYER_MAX, placeholder=PLAYER_PLACEHOLDER)
     ),
-    em('lfcgm: R version 2.0'), width=2
+    em('lfcgm R version:', lfcgm_version), width=2
   ),
   
   mainPanel(
