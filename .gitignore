@@ -30,6 +30,7 @@ tmp*/
 
 # rstudio files
 rsconnect/
+*.Rdata
 *.Rhistory
 *.Rproj*
 .Rproj.user
