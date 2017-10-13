@@ -16,7 +16,8 @@ v1.1.0 - Updated app for season 2015-16, October 2016
            - Updated version to 1.1
            - Updated getHTML() function to make it data-driven using ABOUT* variables
            - Added __updated__ and set it to 'October 2016'
-    
+v1.2.0 - Updated app for season 2016-17, October 2017
+           - Updated __version__ and __updated__
 """
 from spyre import server
 import os
@@ -31,8 +32,8 @@ __copyright__ = "Terry Dolan"
 __license__ = "MIT"
 __email__ = "terry8dolan@gmail.com"
 __status__ = "Production"
-__version__ = "1.1.0"
-__updated__ = 'October 2016'
+__version__ = "1.2.0"
+__updated__ = 'October 2017'
 
 # set up logging
 logging.config.dictConfig(lfcgm_log_config.dictLogConfig)
@@ -172,7 +173,7 @@ class LFCGoalMachine(server.App):
         <p>
         The app plots a player's age against the league goals that the player scored in a top level season.
         You can generate your own plots simply by selecting one or more players from the dropdown list on the Plot tab.
-        You can compare players across different seasons and eras.  Enjoy :-).
+        You can compare players across different seasons and eras. Enjoy :-).
         </p>
         
         <p>

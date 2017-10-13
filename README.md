@@ -1,6 +1,6 @@
 # lfcgm
 
-The Liverpool Football Club Goal Machine (lfcgm) is an interactive python web app that takes a selected LFC player and plots the player's age against the league goals that the player scored in a top level season. The app knows about every LFC player who scored a top level league goal in more than one season, from 1894-95 to 2015-16. 
+The Liverpool Football Club Goal Machine (lfcgm) is an interactive python web app that takes a selected LFC player and plots the player's age against the league goals that the player scored in a top level season. The app knows about every LFC player who scored a top level league goal in more than one season, from 1894-95 to 2016-17. 
 
 ## Try the app
 
