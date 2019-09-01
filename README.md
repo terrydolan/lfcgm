@@ -1,4 +1,11 @@
-# lfcgm
+**This lfcgm repo has been archived, replaced by the [lfcgmR repo](https://github.com/terrydolan/lfcgmR).**
+
+**The lfcgm app has moved here: [lfcgmR.lfcsorted.com](http://lfcgmR.lfcsorted.com).**  
+       
+--------------
+--------------
+
+# lfcgm [status: archived]
 
 The Liverpool Football Club Goal Machine (lfcgm) is an interactive python web app that takes a selected LFC player and plots the player's age against the league goals that the player scored in a top level season. The app knows about every LFC player who scored a top level league goal in more than one season, from 1894-95 to 2016-17. 
 
